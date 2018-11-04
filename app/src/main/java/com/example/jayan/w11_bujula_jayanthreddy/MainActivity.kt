@@ -5,12 +5,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
-
+    // Array for storing the sequence values
+    var retrieve : ArrayList<Int> = arrayListOf(0)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        // get all button id's
         var one : Button = findViewById(R.id.button1)
         one.setOnClickListener(this)
         var two : Button = findViewById(R.id.button2)
@@ -41,23 +45,39 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         clear.setOnClickListener(this)
     }
     override fun onClick(v: View?) {
+        // perform respective button operations
         when (v?.getId()) {
-            R.id.button1 ->  Log.d("RESULT:","x == 1")
-            R.id.button2 ->  Log.d("RESULT:","x == 2")
-            R.id.button3 ->  Log.d("RESULT:","x == 3")
-            R.id.button4 ->  Log.d("RESULT:","x == 4")
-            R.id.button5 ->  Log.d("RESULT:","x == 5")
-            R.id.button6 ->  Log.d("RESULT:","x == 6")
-            R.id.button7 ->  Log.d("RESULT:","x == 7")
-            R.id.button8 ->  Log.d("RESULT:","x == 8")
-            R.id.button9 ->  Log.d("RESULT:","x == 9")
-            R.id.button10 -> Log.d("RESULT:","x == 10")
-            R.id.button11 -> Log.d("RESULT:","x == 11")
-            R.id.button12 -> Log.d("RESULT:","x == 12")
-            R.id.undo ->     Log.d("RESULT:","x == 13")
-            R.id.clear ->    Log.d("RESULT:","x == 14")
+            R.id.button1 -> assign(1)
+            R.id.button2 ->  assign(2)
+            R.id.button3 -> assign(3)
+            R.id.button4 -> assign(4)
+            R.id.button5 -> assign(5)
+            R.id.button6 -> assign(6)
+            R.id.button7 -> assign(7)
+            R.id.button8 -> assign(8)
+            R.id.button9 -> assign(9)
+            R.id.button10 -> assign(10)
+            R.id.button11 -> assign(11)
+            R.id.button12 -> assign(12)
+            R.id.undo ->     {
+                if (retrieve.size>1){
+                    retrieve.removeAt(retrieve.size-1)
+                    textview.text=retrieve.get(retrieve.size-1).toString()
+                }
+            }
+            R.id.clear ->   {
+                retrieve.clear()
+                retrieve.add(0)
+                textview.text="0"
+            }
             else -> { // Note the block
                 Log.d("RESULT:","x is neither 1 nor 2")
             }
         }    }
+    // assigns value to the text view
+    public fun assign(number: Int){
+        var str = (retrieve.get(retrieve.size-1)+number).toString()
+        textview.text = str
+        retrieve.add(str.toInt())
+    }
 }
